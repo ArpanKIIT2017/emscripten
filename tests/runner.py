@@ -184,6 +184,9 @@ class RunnerCore(unittest.TestCase):
   def is_wasm_backend(self):
     return Settings.WASM_BACKEND
 
+  def is_js_backend(self):
+    return not Settings.WASM_BACKEND
+
   def uses_memory_init_file(self):
     if self.emcc_args is None:
       return None
