@@ -34,11 +34,6 @@ def no_emterpreter(f):
 def no_wasm(f):
   return skip_if(f, 'is_wasm')
 
-def no_js_backend(note=''):
-  def decorated(f):
-    return skip_if(f, 'is_js_backend', note)
-  return decorated
-
 def no_wasm_backend(note=''):
   def decorated(f):
     return skip_if(f, 'is_wasm_backend', note)
@@ -1331,9 +1326,9 @@ int main() {
   def test_complex(self):
     self.do_run_in_out_file_test('tests', 'core', 'test_complex', force_c=True)
 
-  @no_js_backend('no __builtin_fmin support in JSBackend')
   def test_float_builtins(self):
     # tests wasm_libc_rt
+    if not self.is_wasm_backend(): return self.skip('no __builtin_fmin support in JSBackend')
     self.do_run_in_out_file_test('tests', 'core', 'test_float_builtins')
 
   def test_segfault(self):
